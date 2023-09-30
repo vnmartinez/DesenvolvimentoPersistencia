@@ -21,15 +21,23 @@ def listar_contatos():
         tree = ET.parse('contatos.xml')
         root = tree.getroot()
 
-        for contato in root:
-            nome = contato.find('Nome').text
-            telefone = contato.find('Telefone').text
-            email = contato.find('Email').text
+        for Contato in root:
+            nome_element = Contato.find('Nome')
+            telefone_element = Contato.find('Telefone')
+            email_element = Contato.find('Email')
 
-            print("Nome:", nome)
-            print("Telefone:", telefone)
-            print("E-mail:", email)
-            print("-------------------------")
+            if nome_element is not None and telefone_element is not None and email_element is not None:
+                nome = nome_element.text
+                telefone = telefone_element.text
+                email = email_element.text
+
+                print("Nome:", nome)
+                print("Telefone:", telefone)
+                print("E-mail:", email)
+                print("-------------------------")
+            else:
+                print("Contato mal formatado ou informações ausentes.")
+
     except FileNotFoundError:
         print("Nenhum contato encontrado.")
 
@@ -41,11 +49,12 @@ while True:
     
     opcao = input("Escolha uma opção: ")
 
-    if opcao == '1':
-        adicionar_contato()
-    elif opcao == '2':
-        listar_contatos()
-    elif opcao == '3':
-        break
-    else:
-        print("Opção inválida. Tente novamente.")
+    match opcao:
+        case '1':
+            adicionar_contato()
+        case '2':
+            listar_contatos()
+        case '3':
+            break
+        case _:
+            print("Opção inválida. Tente novamente.")
